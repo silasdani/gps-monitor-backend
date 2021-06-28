@@ -3,11 +3,10 @@ class StaticPagesController < ApplicationController
   end
   
   def home
-    render json: {status: "Welcome to jogging app!"}
-    # if logged_in?
-    #   @micropost = current_user.microposts.build
-    #   @feed_items = current_user.feed.paginate(page: params[:page])
-    # end
+    if logged_in?
+      @track = current_user.track.build
+      @feed_items = current_user.feed.paginate(page: params[:page])
+    end
   end
 
   def help

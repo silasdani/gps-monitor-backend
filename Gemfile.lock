@@ -39,6 +39,8 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
+    active_storage_validations (0.8.2)
+      rails (>= 5.2.0)
     activejob (6.1.4)
       activesupport (= 6.1.4)
       globalid (>= 0.3.6)
@@ -63,6 +65,7 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     ansi (1.5.0)
+    bcrypt (3.1.13)
     bindex (0.8.1)
     bootsnap (1.7.5)
       msgpack (~> 1.0)
@@ -81,6 +84,10 @@ GEM
     concurrent-ruby (1.1.9)
     crass (1.0.6)
     erubi (1.10.0)
+    faker (2.1.2)
+      i18n (>= 0.8)
+    fast_jsonapi (1.5)
+      activesupport (>= 4.2)
     ffi (1.15.3-x64-mingw32)
     formatador (0.3.0)
     globalid (0.4.2)
@@ -100,6 +107,9 @@ GEM
       minitest (>= 3.0)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
+    image_processing (1.9.3)
+      mini_magick (>= 4.9.5, < 5)
+      ruby-vips (>= 2.0.13, < 3)
     jbuilder (2.11.2)
       activesupport (>= 5.0.0)
     listen (3.1.5)
@@ -114,6 +124,7 @@ GEM
       mini_mime (>= 0.1.1)
     marcel (1.0.1)
     method_source (1.0.0)
+    mini_magick (4.9.5)
     mini_mime (1.1.0)
     minitest (5.11.3)
     minitest-reporters (1.3.8)
@@ -179,7 +190,10 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     regexp_parser (2.1.1)
+    rolify (6.0.0)
     ruby-progressbar (1.11.0)
+    ruby-vips (2.1.2)
+      ffi (~> 1.12)
     ruby_dep (1.5.0)
     rubyzip (2.3.0)
     sass-rails (6.0.0)
@@ -235,6 +249,7 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    will_paginate (3.1.8)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.4.2)
@@ -243,13 +258,19 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
+  active_storage_validations (= 0.8.2)
+  bcrypt (= 3.1.13)
   bootsnap (>= 1.4.4)
   byebug
   capybara (>= 3.26)
+  faker (= 2.1.2)
+  fast_jsonapi
   guard (= 2.15.0)
   guard-minitest (= 2.4.6)
+  image_processing (= 1.9.3)
   jbuilder (~> 2.7)
   listen (= 3.1.5)
+  mini_magick (= 4.9.5)
   minitest (= 5.11.3)
   minitest-reporters (= 1.3.8)
   pg (= 1.1.4)
@@ -257,6 +278,7 @@ DEPENDENCIES
   rack-mini-profiler (~> 2.0)
   rails (~> 6.1.3, >= 6.1.3.2)
   rails-controller-testing (= 1.0.4)
+  rolify
   sass-rails (>= 6)
   selenium-webdriver
   spring (= 2.1.0)
@@ -267,6 +289,7 @@ DEPENDENCIES
   web-console (>= 4.1.0)
   webdrivers
   webpacker (~> 5.0)
+  will_paginate (= 3.1.8)
 
 RUBY VERSION
    ruby 2.7.3p183

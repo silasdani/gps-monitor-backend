@@ -16,6 +16,6 @@ class TrackTest < ActiveSupport::TestCase
   end
 
   test "order should be most recent first" do
-    assert_equal tracks(:most_recent), Track.first
+    assert_equal tracks(:two), Track.first
   end
 end

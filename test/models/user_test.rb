@@ -77,7 +77,7 @@ class UserTest < ActiveSupport::TestCase
   test "associated tracks should be destroyed" do
     @user.save
     @user.tracks.create!(date: Time.zone.now, distance: 15.2, time: 20*60)
-    assert_difference 'Tracks.count', -1 do
+    assert_difference 'Track.count', -1 do
       @user.destroy
     end
   end

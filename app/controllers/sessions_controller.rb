@@ -1,4 +1,7 @@
 class SessionsController < ApplicationController
+
+  protect_from_forgery with: :null_session
+
   def new
   end
 
@@ -13,7 +16,8 @@ class SessionsController < ApplicationController
         message = "Account not activated. "
         message += "Check your email for the activation link."
         flash[:warning] = message
-        redirect_to root_url
+        render json: {"message": "I'm from login " + message}
+        # redirect_to root_url
       end
     else
       flash.now[:danger] = 'Invalid email/password combination'

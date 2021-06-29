@@ -1,17 +1,18 @@
 class UsersController < ApplicationController
-  # before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :following, :followers]
-  # before_action :correct_user, only: [:edit, :update]
-  # before_action :admin_user, only: :destroy
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
+  before_action :correct_user, only: [:edit, :update]
+  before_action :admin_user, only: []
+  before_action :manager_user, only: :destroy
 
   protect_from_forgery with: :null_session
 
   def index
     @users = User.all
     render json: UserSerializer.new(@users, options).serialized_json
-    # if logged_in?
-    #   @micropost = current_user.microposts.build
-    #   @feed_items = current_user.feed.paginate(page: params[:page])
-    # end
+    if logged_in?
+      @track = current_user.tracks.build
+      @feed_items = current_user.feed.paginate(page: params[:page])
+    end
   end
 
   def show
@@ -22,7 +23,7 @@ class UsersController < ApplicationController
   def create
     user = User.new(user_params)
 
-    if (user.save)
+    if user.save
       render json: UserSerializer.new(user).serialized_json
     else
       render json: { error: user.errors.messages }, status: 422
@@ -59,13 +60,11 @@ class UsersController < ApplicationController
   end
 
   # Confirms a logged-in user.
-
-  # def logged_in_user
-  #   unless logged_in?
-  #     store_location
-
-  #   end
-  # end
+  def logged_in_user
+    unless logged_in?
+      store_location
+    end
+  end
 
   # Confirms the correct user.
   def correct_user

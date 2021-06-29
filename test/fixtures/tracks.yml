@@ -5,9 +5,11 @@ one:
   distance: 1.5
   time: 1
   user: daniel
+  created_at: <%= 2.hours.ago %>
 
 two:
   date: 2021-06-28 18:45:43
   distance: 1.5
   time: 1
   user: daniel
+  created_at: <%= Time.zone.now %>

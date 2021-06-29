@@ -1,7 +1,7 @@
 class StaticPagesController < ApplicationController
   def about
   end
-  
+
   def home
     if logged_in?
       @track = current_user.track.build
@@ -10,10 +10,10 @@ class StaticPagesController < ApplicationController
   end
 
   def help
-    render json: {status: "Help!"}
+    render json: { status: "Help!" }
   end
 
-  def contact    
-    render json: {status: "Contact!"}
+  def contact
+    render json: { status: "Contact!" }
   end
 end

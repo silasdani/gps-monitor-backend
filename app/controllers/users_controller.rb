@@ -6,12 +6,12 @@ class UsersController < ApplicationController
   protect_from_forgery with: :null_session
 
   def index
-      @users = User.all
-      render json:  UserSerializer.new(@users, options).serialized_json
-      # if logged_in?
-      #   @micropost = current_user.microposts.build
-      #   @feed_items = current_user.feed.paginate(page: params[:page])
-      # end
+    @users = User.all
+    render json: UserSerializer.new(@users, options).serialized_json
+    # if logged_in?
+    #   @micropost = current_user.microposts.build
+    #   @feed_items = current_user.feed.paginate(page: params[:page])
+    # end
   end
 
   def show
@@ -21,8 +21,8 @@ class UsersController < ApplicationController
 
   def create
     user = User.new(user_params)
-    
-    if(user.save)
+
+    if (user.save)
       render json: UserSerializer.new(user).serialized_json
     else
       render json: { error: user.errors.messages }, status: 422
@@ -43,13 +43,13 @@ class UsersController < ApplicationController
     if user.destroy
       head :no_content
     else
-      render json: {error: user.errors.messages }, status: 422
+      render json: { error: user.errors.messages }, status: 422
     end
 
   end
 
+  private
 
-private
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
@@ -58,13 +58,12 @@ private
     @options ||= { include: %i[tracks] }
   end
 
-
   # Confirms a logged-in user.
 
   # def logged_in_user
   #   unless logged_in?
   #     store_location
-   
+
   #   end
   # end
 
@@ -73,7 +72,7 @@ private
     @user = User.find(params[:id])
     redirect_to(root_url) unless current_user?(@user)
   end
-  
+
   #Confirms an admin user.
   def admin_user
     redirect_to(root_url) unless current_user.admin?
@@ -83,6 +82,5 @@ private
   def manager_user
     redirect_to(root_url) unless current_user.manager?
   end
-
 
 end

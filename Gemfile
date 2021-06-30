@@ -60,15 +60,15 @@ group :development do
   gem 'listen', '3.1.5'
   gem 'spring', '2.1.0'
   gem 'spring-watcher-listen', '2.0.1'
-
+  gem 'webdrivers'
 end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 3.26'
   gem 'selenium-webdriver'
+
   # Easy installation and use of web drivers to run system tests with browsers
-  gem 'webdrivers'
   gem 'rails-controller-testing', '1.0.4'
   gem 'minitest', '5.11.3'
   gem 'minitest-reporters', '1.3.8'

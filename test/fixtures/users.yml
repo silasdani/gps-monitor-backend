@@ -11,6 +11,7 @@ archer:
   email: duchess@example.gov
   password_digest: <%= User.digest('password') %>
   activated: true
+  manager: true
   activated_at: <%= Time.zone.now %>
 lana:
   name: Lana Kane

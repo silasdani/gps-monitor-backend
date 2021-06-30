@@ -1,7 +1,6 @@
 class TracksController < ApplicationController
   before_action :logged_in_user, only: [:create, :destroy]
   before_action :correct_user, only: :destroy
-  protect_from_forgery with: :null_session
 
   def index
     tracks = Track.all
@@ -12,7 +11,7 @@ class TracksController < ApplicationController
   def create
     track = Track.new(track_params)
 
-    if (track.save)
+    if track.save
       render json: TrackSerializer.new(track).serialized_json
     else
       render json: { error: track.errors.messages }, status: 422
@@ -32,7 +31,7 @@ class TracksController < ApplicationController
   def destroy
     track = Track.find(params[:id])
 
-    if (track.destroy)
+    if track.destroy
       head :no_content
     else
       render json: { error: track.errors.messages }, status: 422
@@ -43,5 +42,10 @@ class TracksController < ApplicationController
 
   def track_params
     params.require(:track).permit(:date, :distance, :time, :user_id)
+  end
+
+  def correct_user
+    @track = current_user.tracks.find_by(id: params[:id])
+    redirect_to root_url if @track.nil?
   end
 end

@@ -3,35 +3,26 @@ class PasswordResetsController < ApplicationController
   before_action :valid_user, only: [:edit, :update]
   before_action :check_expiration, only: [:edit, :update] # Case (1)
 
-  def new
-  end
-
   def create
     @user = User.find_by(email: params[:password_reset][:email].downcase)
     if @user
       @user.create_reset_digest
       @user.send_password_reset_email
-      flash[:info] = "Email sent with password reset instructions"
-      redirect_to root_url
+      render json: { "message": "Email sent with password reset instructions" }
     else
-      flash.now[:danger] = "Email address not found"
-      render 'new'
+      render json: { "message": "Email address not found" }
     end
-  end
-
-  def edit
   end
 
   def update
     if params[:user][:password].empty? # Case (3)
       @user.errors.add(:password, "can't be empty")
-      render 'edit'
+      render json: { error: user.errors.messages }, status: 322
     elsif @user.update(user_params) # Case (4)
       log_in @user
-      flash[:success] = "Password has been reset."
-      redirect_to @user
+      render json: { "message": "Password has been reset." }, status: 322
     else
-      render 'edit' # Case (2)
+      render json: { "message": "Password has not been reset" } # Case (2)
     end
   end
 
@@ -49,15 +40,14 @@ class PasswordResetsController < ApplicationController
   def valid_user
     unless @user && @user.activated? &&
       @user.authenticated?(:reset, params[:id])
-      redirect_to root_url
+      render json: { error: user.errors.messages }, status: 322
     end
   end
 
   # Checks expiration of reset token.
   def check_expiration
     if @user.password_reset_expired?
-      flash[:danger] = "Password reset has expired."
-      redirect_to new_password_reset_url
+      render json: { "message": "Password reset has expired." }, status: 322
     end
   end
 

@@ -1,17 +1,13 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy]
-  before_action :correct_user, only: [ :edit, :update]
-  before_action :admin_user, only: [:index,  :destroy]
-  before_action :manager_user, only: [:index,  :destroy]
+  before_action :logged_in_user, only: [:index, :show, :update, :destroy]
+  before_action :correct_user, only: [:update, :show]
+  before_action :admin_user_or_manager, only: [:index, :destroy]
 
-  def new
-    @user = User.new
-    render json: { message: "This page is to add a user" }
-  end
+  # CRUD operations
 
   def index
     @users = User.all
-    render json: UserSerializer.new(@users, options).serialized_json
+    render json: UserSerializer.new(@users).serialized_json
   end
 
   def show
@@ -20,43 +16,30 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.new(user_params)
+    @user = User.new(user_params)
 
-    if user.save
-
-      @user.send_activation_email
-      flash[:info] = "Please check your email to activate your account."
-      redirect_to root_url
-      # render json: UserSerializer.new(user).serialized_json
+    if @user.save
+      # @user.send_activation_email
+      @user.activate
+      render json: UserSerializer.new(@user).serialized_json
     else
-      render 'new'
-      # render json: { error: user.errors.messages }, status: 422
+      render json: { error: @user.errors.messages }, status: 422
     end
-  end
-
-  def edit
-    @user = User.find(params[:id])
-    render json: { message: "This page is to edit a user" }
   end
 
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-      flash[:success] = "Profile updated"
-
-      # render json: UserSerializer.new(@user, options).serialized_json
-      redirect_to @user
+      render json: UserSerializer.new(@user, options).serialized_json
     else
-      render 'edit'
-      # render json: { error: @user.errors.messages }, status: 422
+      render json: { error: @user.errors.messages }, status: 422
     end
   end
 
   def destroy
     user = User.find(params[:id])
     if user.destroy
-      redirect_to users_url
-      # head :no_content
+      head :no_content
     else
       render json: { error: user.errors.messages }, status: 422
     end
@@ -69,6 +52,7 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 
+  # Includes the tracks as options
   def options
     @options ||= { include: %i[tracks] }
   end
@@ -76,17 +60,12 @@ class UsersController < ApplicationController
   # Confirms the correct user.
   def correct_user
     @user = User.find(params[:id])
-    redirect_to(root_url) unless current_user?(@user) || current_user.admin? || current_user.manager?
+    render json: { "message": "You can't do that" }, status: 322 unless current_user?(@user) || current_user.admin? || current_user.manager?
   end
 
   #Confirms an admin user.
-  def admin_user
-    redirect_to(root_url) unless current_user.admin?
-  end
-
-  #Confirms a manager user.
-  def manager_user
-    redirect_to(root_url) unless current_user.manager?
+  def admin_user_or_manager
+    render json: { "message": "You can't do that, you're not a admin or manager" } unless current_user.admin? || current_user.manager?
   end
 
 end

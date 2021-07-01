@@ -1,6 +1,6 @@
 class TracksController < ApplicationController
   before_action :logged_in_user
-  before_action :correct_user 
+  before_action :correct_user, only: [:index, :show, :update, :destroy]
 
   def index
     tracks = current_user.tracks
@@ -10,11 +10,12 @@ class TracksController < ApplicationController
 
   def show 
     track = Track.find(params[:id])
-    render json: TrackSerializer.new(track)
+    render json: TrackSerializer.new(track).serialized_json
   end
 
   def create
     track = Track.new(track_params)
+    track.user_id = current_user.id
 
     if track.save
       render json: TrackSerializer.new(track).serialized_json
@@ -51,6 +52,6 @@ class TracksController < ApplicationController
 
   def correct_user
     @track = current_user.tracks.find_by(id: params[:id])
-    redirect_to root_url if @track.nil? && !current_user.admin?
+    render json: { "message": "You can't do that, you're not admin or correct user" } if @track.nil? && !current_user.admin?
   end
 end

@@ -23,12 +23,25 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_url
   end
 
-  test "should redirect destroy for wrong track" do
-    log_in_as(users(:daniel))
+  test "should CRUD track when admin" do
+    log_in_as(users(:daniel))  
     track = tracks(:three)
-    assert_no_difference 'Track.count' do
+    
+    # Delete
+    assert_difference 'Track.count', -1 do
       delete track_path(track)
     end
-    assert_redirected_to root_url
+
+    # Create
+    assert_difference 'Track.count', 1 do
+      post tracks_path, params: {
+        "track": {
+            date: "2021-06-27T05:07:04.000Z",
+            distance: 5.23,
+            time: 1000,
+            user_id: users(:lana).id } }
+    end  
   end
+
+  
 end

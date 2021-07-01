@@ -3,7 +3,7 @@
 one:
   date: 2021-06-28 18:45:51
   distance: 1.5
-  time: 1
+  time: 1560
   user: daniel
   created_at: <%= 2.hours.ago %>
 
@@ -20,3 +20,16 @@ three:
   time: 1000
   user: archer
   created_at: <%= Time.zone.now %>
+
+four: 
+  date: 2021-06-28 13:45:43
+  distance: 1.8
+  time: 1500
+  user: lana
+  created_at: <%= 6.hours.ago %>
+five: 
+  date: 2021-06-28 13:45:43
+  distance: 1.8
+  time: 3000
+  user: lana
+  created_at: <%= 17.hours.ago %>

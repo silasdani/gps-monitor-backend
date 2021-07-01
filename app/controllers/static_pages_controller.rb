@@ -8,7 +8,7 @@ class StaticPagesController < ApplicationController
       @track = current_user.tracks.build
       @feed_items = current_user.feed.paginate(page: params[:page])
     end
-    render json: { status: "Home - Welcome Home!" }
+    # render json: { status: "Home - Welcome Home!" }
   end
 
   def help

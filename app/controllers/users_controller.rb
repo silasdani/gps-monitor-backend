@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :'show.html.erb', :edit, :update, :destroy]
-  before_action :correct_user, only: [:edit, :update]
-  before_action :admin_user, only: [:destroy]
-  before_action :manager_user, only: [:destroy]
+  before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy]
+  before_action :correct_user, only: [ :edit, :update]
+  before_action :admin_user, only: [:index,  :destroy]
+  before_action :manager_user, only: [:index,  :destroy]
 
   def new
     @user = User.new
@@ -76,7 +76,7 @@ class UsersController < ApplicationController
   # Confirms the correct user.
   def correct_user
     @user = User.find(params[:id])
-    redirect_to(root_url) unless current_user?(@user)
+    redirect_to(root_url) unless current_user?(@user) || current_user.admin? || current_user.manager?
   end
 
   #Confirms an admin user.

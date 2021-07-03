@@ -5,22 +5,20 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:session][:password])
       if user.activated?
         log_in user
-        params[:session][:remember_me] == '1' ? remember(user) : forget(user)
+        remember(user)
         render json: UserSerializer.new(user).serialized_json
       else
-        message = "Account not activated. \n"
+        message = "Account not activated "
         message += "Check your email for the activation link."
 
         render json: { error: user.errors.messages, message: message  }, status: 322
       end
     else
-      render json: {"message": 'Invalid email/password combination'}
+      render json: { error: "N-am primit ce trebe/nu-i buna parola", message: "Invalid pass/email"  }, status: 422
     end
   end
-
   def destroy
     log_out if logged_in?
     render json: {"message": 'Successfully logged out'}
   end
-
 end

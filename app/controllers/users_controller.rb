@@ -19,8 +19,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      # @user.send_activation_email
-      @user.activate
+      @user.send_activation_email
       render json: UserSerializer.new(@user).serialized_json
     else
       render json: { error: @user.errors.messages }, status: 422
@@ -60,7 +59,7 @@ class UsersController < ApplicationController
   # Confirms the correct user.
   def correct_user
     @user = User.find(params[:id])
-    render json: { "message": "You can't do that" }, status: 322 unless current_user?(@user) || current_user.admin? || current_user.manager?
+    render json: { "message": "You can't do that" }, status: 322 unless (current_user?(@user) || current_user.admin? || current_user.manager?)
   end
 
   #Confirms an admin user.

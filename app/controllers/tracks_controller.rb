@@ -1,16 +1,17 @@
 class TracksController < ApplicationController
   before_action :logged_in_user
-  before_action :correct_user, only: [:index, :show, :update, :destroy]
+  before_action :correct_user, only: [:index, :update, :destroy]
 
   def index
-    tracks = current_user.tracks
+    tracks = Track.all
 
-    render json: TrackSerializer.new(tracks).serialized_json
+    render json: TrackSerializer.new(tracks).as_json
   end
 
   def show 
-    track = Track.find(params[:id])
-    render json: TrackSerializer.new(track).serialized_json
+    tracks = current_user.tracks
+
+    render json: TrackSerializer.new(tracks).as_json
   end
 
   def create

@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
 
   def create
+   
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
       if user.activated?
@@ -14,7 +15,7 @@ class SessionsController < ApplicationController
         render json: { error: user.errors.messages, message: message  }, status: 322
       end
     else
-      render json: { error: "N-am primit ce trebe/nu-i buna parola", message: "Invalid pass/email"  }, status: 422
+      render json: { error: "Invalid email or password"  }, status: 401
     end
   end
   def destroy

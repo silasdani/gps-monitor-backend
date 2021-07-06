@@ -10,7 +10,7 @@ class PasswordResetsController < ApplicationController
       @user.send_password_reset_email
       render json: { "message": "Email sent with password reset instructions" }
     else
-      render json: { "message": "Email address not found" }
+      render json: { "message": "Email address not found" }, status: 404
     end
   end
 

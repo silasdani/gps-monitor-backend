@@ -5,7 +5,7 @@ class AccountActivationsController < ApplicationController
             user.activate
             render json: UserSerializer.new(user).serialized_json
         else
-            render json: { error: user.errors.messages }, status: 322
+            render json: { error: "Invalid activation link / Account activated" }, status: 322
         end
     end
 end

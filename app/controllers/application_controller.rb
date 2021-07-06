@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
   # Confirms a logged-in user.
   def logged_in_user
     unless logged_in?
-      store_location
       render json: { message: "Log in first!" }, status: 322
     end
   end

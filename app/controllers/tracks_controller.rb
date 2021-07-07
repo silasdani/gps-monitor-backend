@@ -1,6 +1,6 @@
 class TracksController < ApplicationController
   before_action :logged_in_user
-  before_action :correct_user, only: [:index, :update, :destroy]
+  before_action :correct_user, only: [:index, :update, :destroy, :getData]
 
   def index
     tracks = Track.all
@@ -44,7 +44,11 @@ class TracksController < ApplicationController
       render json: { error: track.errors.messages }, status: 422
     end
   end
-
+  
+  def getData
+    track = Track.find(params[:id])
+    render json: TrackSerializer.new(track).as_json
+  end
   private
 
   def track_params
@@ -53,6 +57,6 @@ class TracksController < ApplicationController
 
   def correct_user
     @track = current_user.tracks.find_by(id: params[:id])
-    render json: { "message": "You can't do that, you're not admin or correct user" } if @track.nil? && !current_user.admin?
+    render json: { "message": "You can't do that, you're not admin or correct user" }, status: 422 if @track.nil? && !current_user.admin?
   end
 end

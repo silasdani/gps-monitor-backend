@@ -1,13 +1,12 @@
 class PasswordResetsController < ApplicationController
-  before_action :get_user, only: [:edit, :update]
-  before_action :valid_user, only: [:edit, :update]
-  before_action :check_expiration, only: [:edit, :update] # Case (1)
+  before_action :get_user, only: :update
+  before_action :check_expiration, only: :update
 
   def create
     @user = User.find_by(email: params[:password_reset][:email].downcase)
     if @user
       @user.create_reset_digest
-      @user.send_password_reset_email
+      # @user.send_password_reset_email
       render json: { "message": "Email sent with password reset instructions" }
     else
       render json: { "message": "Email address not found" }, status: 404
@@ -15,14 +14,20 @@ class PasswordResetsController < ApplicationController
   end
 
   def update
-    if params[:user][:password].empty? # Case (3)
-      @user.errors.add(:password, "can't be empty")
-      render json: { error: user.errors.messages }, status: 322
-    elsif @user.update(user_params) # Case (4)
-      log_in @user
-      render json: { "message": "Password has been reset." }, status: 322
+    @user = User.find_by(reset_digest: params[:reset_digest])
+    if @user.update(user_params)
+      render json: { "message": "Password has been reset." }
     else
-      render json: { "message": "Password has not been reset" } # Case (2)
+      render json: { "message": "Password has not been reset" }, status: 322
+    end
+  end
+
+  def validate_token 
+    @user = User.find_by(reset_digest: params[:reset_digest])
+    if @user
+      render json: {succes: true}
+    else
+      render json: {succes: false}, status: 401
     end
   end
 
@@ -33,7 +38,7 @@ class PasswordResetsController < ApplicationController
   end
 
   def get_user
-    @user = User.find_by(email: params[:email])
+    @user = User.find_by(reset_digest: params[:reset_digest])
   end
 
   # Confirms a valid user.

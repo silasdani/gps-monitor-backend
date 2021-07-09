@@ -28,8 +28,8 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    if @user.update(user_params)
-      render json: UserSerializer.new(@user, options).serialized_json
+    if @user.update(user_params_update)
+      render json: UserSerializer.new(@user).serialized_json
     else
       render json: { error: @user.errors.messages }, status: 422
     end
@@ -46,6 +46,14 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def user_params_update
+    if current_user.admin?
+      params.require(:user).permit(:name, :email, :manager, :admin, :activated)
+    else
+      params.require(:user).permit(:name, :email, :manager, :activated)
+    end
+  end
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)

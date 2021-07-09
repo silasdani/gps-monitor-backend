@@ -1,4 +1,5 @@
 class TrackSerializer
   include FastJsonapi::ObjectSerializer
-  attributes :date, :distance, :time
+  attributes :date, :distance, :time, :user_id
+
 end

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   post 'validate_token', to: 'password_resets#validate_token'
   post 'reset_password', to: 'password_resets#update'
   get 'tracks/getData/:id', to: 'tracks#getData'
+  get 'tracks/weekly_report', to: 'tracks#weekly_report'
 
   resources :users
   resources :tracks

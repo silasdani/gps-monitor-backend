@@ -8,7 +8,7 @@ class TracksController < ApplicationController
     render json: TrackSerializer.new(tracks).as_json
   end
 
-  def show 
+  def my 
     tracks = current_user.tracks
 
     render json: TrackSerializer.new(tracks).as_json
@@ -45,7 +45,7 @@ class TracksController < ApplicationController
     end
   end
   
-  def getData
+  def show
     track = Track.find(params[:id])
     render json: TrackSerializer.new(track).as_json
   end
@@ -83,13 +83,15 @@ class TracksController < ApplicationController
   
     total_distance = 0
     total_time = 0
+    total_av_speed = 0
 
     tracks.each do |t|
-       total_distance+=t.distance
-       total_time+=t.time
+      total_distance += t.distance
+      total_time += t.time
+      total_av_speed += t.av_speed
     end
 
-    return total_distance, total_time, total_time>0 ? total_distance/total_time*3600 : 0
+    return total_distance.round(2), total_time, total_time>0 ? total_av_speed/tracks.length : 0
   end
 
 end

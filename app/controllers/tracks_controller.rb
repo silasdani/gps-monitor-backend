@@ -70,7 +70,7 @@ class TracksController < ApplicationController
 
   private
   def track_params
-    params.require(:track).permit(:date, :distance, :time, :user_id)
+    params.require(:track).permit(:date, :distance, :time, :location, :user_id)
   end
 
   def correct_user

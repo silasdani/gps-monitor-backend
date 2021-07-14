@@ -6,6 +6,7 @@ class Track < ApplicationRecord
   validates :user_id, presence: true
   validates :distance, presence: true
   validates :date, presence: true
+  validates :location, presence: true
 
   private
   def compute_av_speed

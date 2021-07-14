@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   # CRUD operations
 
   def index
-    @users = User.all
+    @users = User.where("NOT admin")
     render json: UserSerializer.new(@users).serialized_json
   end
 
@@ -37,7 +37,9 @@ class UsersController < ApplicationController
 
   def destroy
     user = User.find(params[:id])
-    if user.destroy
+    if current_user.manager? && user.admin?
+      render json: { error: "You cannot delete a admin user!"}, status: 401
+    elsif user.destroy
       head :no_content
     else
       render json: { error: user.errors.messages }, status: 422

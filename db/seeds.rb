@@ -35,6 +35,5 @@ users = User.order(:created_at).take(25)
   date = Faker::Time.between_dates(from: Date.today.prev_month - 1, to: Date.today, period: :day) #=> "2014-09-19 08:07:52 -0700"
   distance = Faker::Number.between(from: 2.0, to: 8.0).round(2)
   time = Faker::Number.within(range: 600..2000) # seconds
-
   users.each { |user| user.tracks.create!(date: date, distance: distance, time: time) }
 end

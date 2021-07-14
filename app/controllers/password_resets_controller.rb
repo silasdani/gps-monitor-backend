@@ -1,21 +1,24 @@
-class PasswordResetsController < ApplicationController
-  before_action :get_user, only: :update
+class PasswordResetsController < ApplicationController 
+  before_action :get_user, only: :update 
+  before_action :valid_user, only: :update
   before_action :check_expiration, only: :update
+
+
 
   def create
     @user = User.find_by(email: params[:password_reset][:email].downcase)
     if @user
       @user.create_reset_digest
       # @user.send_password_reset_email
-      render json: { "message": "Email sent with password reset instructions" }
+      render json: { "message": "Email sent with password reset instructions", reset_digest: @user.reset_digest }
     else
       render json: { "message": "Email address not found" }, status: 404
     end
   end
 
   def update
-    @user = User.find_by(reset_digest: params[:reset_digest])
-    if @user.update(user_params)
+    user = User.find_by(reset_digest: params[:reset_digest])
+    if user.update(user_params)
       render json: { "message": "Password has been reset." }
     else
       render json: { "message": "Password has not been reset" }, status: 322
@@ -43,9 +46,8 @@ class PasswordResetsController < ApplicationController
 
   # Confirms a valid user.
   def valid_user
-    unless @user && @user.activated? &&
-      @user.authenticated?(:reset, params[:id])
-      render json: { error: user.errors.messages }, status: 322
+    unless @user && @user.activated? 
+      render json: {"message": "User might not be activated!" }, status: 322
     end
   end
 

@@ -10,6 +10,6 @@ Rails.application.routes.draw do
   resources :users
   resources :tracks
   resources :account_activations, only: [:edit]
-  resources :password_resets, only: [:create]
+  resources :password_resets, only: [:create, :update]
   resources :account_activations, only: [:edit]
 end

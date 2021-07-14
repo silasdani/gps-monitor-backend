@@ -91,7 +91,7 @@ class TracksController < ApplicationController
       total_av_speed += t.av_speed
     end
 
-    return total_distance.round(2), total_time, total_time>0 ? total_av_speed/tracks.length : 0
+    return total_distance.round(2), total_time, total_time>0 ? (total_av_speed/tracks.length).round(2) : 0.00
   end
 
 end

@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.3'
+ruby '3.0.0'
 
 gem 'rack-cors', :require => 'rack/cors'
 
@@ -18,7 +18,7 @@ gem 'active_storage_validations', '0.8.2'
 
 gem 'fast_jsonapi'
 
-gem 'faker', '2.1.2'
+gem 'faker'
 
 gem 'will_paginate', '3.1.8'
 
@@ -57,9 +57,9 @@ group :development do
   # Display performance information such as SQL time and flame graphs for each request in your browser.
   # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
   gem 'rack-mini-profiler', '~> 2.0'
-  gem 'listen', '3.1.5'
-  gem 'spring', '2.1.0'
-  gem 'spring-watcher-listen', '2.0.1'
+  gem 'listen'
+  gem 'spring'
+  gem 'spring-watcher-listen'
   gem 'webdrivers'
 
   gem 'rspec-rails'
@@ -80,7 +80,7 @@ group :test do
 end
 
 group :production do
-  gem 'pg', '1.1.4'
+  gem 'pg'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

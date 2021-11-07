@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_many :tracks, dependent: :destroy
+  has_many :locations
 
   attr_accessor :remember_token, :activation_token, :reset_token
   before_save :downcase_email

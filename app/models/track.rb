@@ -3,10 +3,7 @@ class Track < ApplicationRecord
   before_save :compute_av_speed
 
   default_scope -> { order(date: :desc) }
-  validates :user_id, presence: true
-  validates :distance, presence: true
-  validates :date, presence: true
-  validates :location, presence: true
+  validates :user_id, :distance, :date, :location, presence: true
 
   private
   def compute_av_speed

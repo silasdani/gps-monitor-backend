@@ -10,7 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_14_165714) do
+ActiveRecord::Schema.define(version: 2021_11_07_201655) do
+
+  create_table "locations", force: :cascade do |t|
+    t.string "location_title"
+    t.integer "street_number"
+    t.string "locality"
+    t.integer "postal_code"
+    t.string "latitude"
+    t.string "longitude"
+    t.string "place_id"
+    t.string "country"
+    t.string "facility_name"
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id", "created_at"], name: "index_locations_on_user_id_and_created_at"
+    t.index ["user_id"], name: "index_locations_on_user_id"
+  end
 
   create_table "tracks", force: :cascade do |t|
     t.datetime "date"
@@ -42,5 +59,6 @@ ActiveRecord::Schema.define(version: 2021_07_14_165714) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "locations", "users"
   add_foreign_key "tracks", "users"
 end

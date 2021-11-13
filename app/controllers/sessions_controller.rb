@@ -22,4 +22,9 @@ class SessionsController < ApplicationController
     log_out if logged_in?
     render json: {"message": 'Successfully logged out'}
   end
+
+  def ping
+    render json: {"ping": "pong"}, status: 200 
+  end
+
 end

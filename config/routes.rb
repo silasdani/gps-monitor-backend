@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   post 'reset_password', to: 'password_resets#update'
   get 'tracks/my', to: 'tracks#my'
   get 'tracks/weekly_report', to: 'tracks#weekly_report'
+  get 'ping', to: 'sessions#ping'
 
   resources :users
   resources :tracks

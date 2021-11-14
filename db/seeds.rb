@@ -1,33 +1,33 @@
-# User.create!(name: "Admin",
-#              email: "admin@yahoo.com",
-#              password: "foobar",
-#              password_confirmation: "foobar",
-#              admin: true,
-#              activated: true)
-# User.create!(name: "Manager",
-#              email: "manager@yahoo.com",
-#              password: "foobar",
-#              password_confirmation: "foobar",
-#              manager: true,
-#              activated: true)
-# User.create!(name: "User",
-#              email: "user@yahoo.com",
-#              password: "foobar",
-#              password_confirmation: "foobar",
-#              activated: true)
+User.create!(name: "Admin",
+             email: "admin@yahoo.com",
+             password: "foobar",
+             password_confirmation: "foobar",
+             admin: true,
+             activated: true)
+User.create!(name: "Manager",
+             email: "manager@yahoo.com",
+             password: "foobar",
+             password_confirmation: "foobar",
+             manager: true,
+             activated: true)
+User.create!(name: "User",
+             email: "user@yahoo.com",
+             password: "foobar",
+             password_confirmation: "foobar",
+             activated: true)
 
 
 # Generate a bunch of additional users.
-# 27.times do |n|
-#   name = Faker::Name.name
-#   email = "example-#{n + 1}@yahoo.com"
-#   password = "password"
-#   User.create!(name: name,
-#                email: email,
-#                password: password,
-#                password_confirmation: password,
-#                activated: true)
-# end
+27.times do |n|
+  name = Faker::Name.name
+  email = "example-#{n + 1}@yahoo.com"
+  password = "password"
+  User.create!(name: name,
+               email: email,
+               password: password,
+               password_confirmation: password,
+               activated: true)
+end
 
 # Generate jogging tracks for a subset of users.
 users = User.order(:created_at).take(25)

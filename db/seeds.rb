@@ -40,5 +40,7 @@ users = User.order(:created_at).take(25)
   # location_title: "La mine in sat" street_number: Faker:: locality postal_code:integer latitude longitude place_id country facility_name
   users.each { |user|
     user.tracks.create!(date: date, distance: distance, time: time, location: location)
+    address = Faker::Address
+    user.locations.create!(location_title: address.full_address, street_number:  address.building_number, locality: address.city, postal_code: address.zip_code, latitude: address.latitude, longitude: address.longitude, place_id: address.secondary_address, facility_name: address.community)
   }
 end

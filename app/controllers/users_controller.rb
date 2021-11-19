@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :show, :update, :destroy]
-  before_action :correct_user, only: [:update, :show]
+  before_action :logged_in_user, only: [:index, :show, :update, :destroy, :add_location]
+  before_action :correct_user, only: [:update, :show, :add_location]
   before_action :admin_user_or_manager, only: [:index, :destroy]
 
   # CRUD operations
@@ -47,6 +47,10 @@ class UsersController < ApplicationController
 
   end
 
+  def add_location
+    @user = User.find(params[:id])
+  end
+
   private
 
   def user_params_update
@@ -63,7 +67,7 @@ class UsersController < ApplicationController
 
   # Includes the tracks as options
   def options
-    @options ||= { include: %i[tracks] }
+    @options ||= { include: %i[locations] }
   end
 
   # Confirms the correct user.

@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
       if user.activated?
         log_in user
         remember(user)
-        render json: UserSerializer.new(user).serialized_json
+        render json: UserSerializer.new(user, options).serialized_json
       else
         message = "Account not activated "
         message += "Check your email for the activation link."
@@ -25,6 +25,12 @@ class SessionsController < ApplicationController
 
   def ping
     render json: {"ping": "pong"}, status: 200 
+  end
+
+  private
+
+  def options
+    @options ||= { include: %i[locations] }
   end
 
 end

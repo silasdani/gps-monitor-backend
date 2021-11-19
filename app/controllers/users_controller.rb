@@ -49,6 +49,11 @@ class UsersController < ApplicationController
 
   def add_location
     @user = User.find(params[:id])
+    if @user.locations.create!(user_location_params)
+      render json: { location: "Location has been added!" }, status: 200
+    elsif
+      render json: { erroe: "Location hasn't been added!" }, status: 422
+    end
   end
 
   private
@@ -59,6 +64,10 @@ class UsersController < ApplicationController
     else
       params.require(:user).permit(:name, :email, :manager, :activated)
     end
+  end
+
+  def user_location_params
+    params.require(:location).permit(:location_title, :street_number, :locality, :postal_code, :latitude, :longitude, :place_id, :country, :facility_name)
   end
 
   def user_params

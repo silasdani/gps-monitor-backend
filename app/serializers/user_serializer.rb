@@ -3,4 +3,5 @@ class UserSerializer
   attributes :id, :name, :email, :password_digest, :admin, :manager, :remember_digest, :activated
 
   has_many :tracks
+  has_many :locations
 end

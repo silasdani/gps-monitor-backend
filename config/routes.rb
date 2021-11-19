@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   post 'validate_token', to: 'password_resets#validate_token'
   post 'reset_password', to: 'password_resets#update'
+  post 'location', to: 'users#add_location'
   get 'tracks/my', to: 'tracks#my'
   get 'tracks/weekly_report', to: 'tracks#weekly_report'
   get 'ping', to: 'sessions#ping'

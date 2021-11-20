@@ -10,6 +10,7 @@ class CreateLocations < ActiveRecord::Migration[6.1]
       t.string :place_id
       t.string :country
       t.string :facility_name    
+      t.references :user, null: false, foreign_key: true
 
       t.timestamps
     end

@@ -17,6 +17,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user.activated = true
 
     if @user.save
       @user.send_activation_email

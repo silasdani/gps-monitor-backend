@@ -1,7 +1,6 @@
 class SessionsController < ApplicationController
 
   def create
-   
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
       if user.activated?
@@ -18,6 +17,7 @@ class SessionsController < ApplicationController
       render json: { error: "Invalid email or password"  }, status: 401
     end
   end
+
   def destroy
     log_out if logged_in?
     render json: {"message": 'Successfully logged out'}

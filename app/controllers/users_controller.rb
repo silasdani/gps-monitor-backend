@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     @user.activated = true
 
     if @user.save
-      @user.send_activation_email
+      # @user.send_activation_email
       render json: UserSerializer.new(@user).serialized_json
     else
       render json: { error: @user.errors.messages }, status: 422

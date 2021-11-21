@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
         render json: { error: user.errors.messages, message: message  }, status: 322
       end
     else
-      render json: { error: "Invalid email or password"  }, status: 401
+      render json: { error: "Invalid email or password"  }, status: 404
     end
   end
 

@@ -1,6 +1,12 @@
 class LocationsController < ApplicationController
     before_action :logged_in_user
 
+    def locations 
+      @locations = @current_user.locations
+
+      render json: LocationSerializer.new(@locations).serialized_json
+    end
+
     def add_location
         if @current_user.locations.create!(location_params)
           render json: LocationSerializer.new(@current_user.locations.last).serialized_json

@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 
   def index
     @users = User.where("NOT admin")
-    render json: UserSerializer.new(@users).serialized_json
+    render json: UserSerializer.new(@users, options).serialized_json
   end
 
   def show

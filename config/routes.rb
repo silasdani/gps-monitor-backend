@@ -10,8 +10,7 @@ Rails.application.routes.draw do
   get 'tracks/weekly_report', to: 'tracks#weekly_report'
   get 'ping', to: 'sessions#ping'
 
-  resources :users
-  resources :tracks
+  resources :users, :tracks, :locations
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:create, :update]
   resources :account_activations, only: [:edit]

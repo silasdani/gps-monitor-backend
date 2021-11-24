@@ -30,10 +30,9 @@ User.create!(name: "Silas Daniel",
 end
 
 # Generate jogging tracks for a subset of users.
-users = User.order(:created_at).take(10)
-do  
-  users.each { |user|
-  5.times 
+users = User.order(:created_at).take(10)  
+users.each { |user|
+  5.times do
     date = Faker::Time.between_dates(from: Date.today.prev_month - 1, to: Date.today, period: :day) #=> "2014-09-19 08:07:52 -0700"
     distance = Faker::Number.between(from: 2.0, to: 8.0).round(2)
     time = Faker::Number.within(range: 600..2000) # seconds
@@ -44,5 +43,5 @@ do
     lat = Faker::Number.between(from: 46.76, to: 46.78)
     lng = Faker::Number.between(from: 23.55, to: 23.69)
     user.locations.create!(location_title: address.full_address, street_number:  address.building_number, locality: address.city, postal_code: address.zip_code, latitude: lat, longitude: lng, place_id: address.secondary_address, facility_name: address.community)
-  }
-end
+  end
+}

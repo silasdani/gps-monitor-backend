@@ -31,7 +31,8 @@ end
 
 # Generate jogging tracks for a subset of users.
 users = User.order(:created_at).take(10)
-do  users.each { |user|
+do  
+  users.each { |user|
   5.times 
     date = Faker::Time.between_dates(from: Date.today.prev_month - 1, to: Date.today, period: :day) #=> "2014-09-19 08:07:52 -0700"
     distance = Faker::Number.between(from: 2.0, to: 8.0).round(2)

@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
         remember(user)
         render json: {token: token}, status: 201
       else
-        message = "Account not activated "
+        message = "Account not activated\n"
         message += "Check your email for the activation link."
 
         render json: { error: user.errors.messages, message: message  }

@@ -2,19 +2,21 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:session][:email].downcase)
+    token = AuthenticationTokenService.auth(user)
+
     if user && user.authenticate(params[:session][:password])
       if user.activated?
         log_in user
         remember(user)
-        render json: UserSerializer.new(user, options).serialized_json
+        render json: {token: token}, status: 201
       else
         message = "Account not activated "
         message += "Check your email for the activation link."
 
-        render json: { error: user.errors.messages, message: message  }, status: 322
+        render json: { error: user.errors.messages, message: message  }
       end
     else
-      render json: { error: "Invalid email or password"  }, status: 404
+      render json: { error: "Invalid email or password"  }, status: 401
     end
   end
 
